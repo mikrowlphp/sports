@@ -1,0 +1,11 @@
+<?php
+
+namespace Packages\Sports\SportClub\Enums;
+
+enum SubscriptionStatus: string
+{
+    case Active = 'active';
+    case Expired = 'expired';
+    case Cancelled = 'cancelled';
+    case Suspended = 'suspended';
+}

@@ -1,0 +1,48 @@
+<?php
+
+namespace Packages\Sports\SportClub\Filament\Resources\Lessons;
+
+use BackedEnum;
+use Filament\Resources\Resource;
+use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Table;
+use Packages\Sports\SportClub\Filament\Resources\Lessons\Pages\CreateLesson;
+use Packages\Sports\SportClub\Filament\Resources\Lessons\Pages\EditLesson;
+use Packages\Sports\SportClub\Filament\Resources\Lessons\Pages\ListLessons;
+use Packages\Sports\SportClub\Filament\Resources\Lessons\Schemas\LessonForm;
+use Packages\Sports\SportClub\Filament\Resources\Lessons\Tables\LessonsTable;
+use Packages\Sports\SportClub\Models\Lesson;
+
+class LessonResource extends Resource
+{
+    protected static ?string $model = Lesson::class;
+
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+
+    public static function form(Schema $schema): Schema
+    {
+        return LessonForm::configure($schema);
+    }
+
+    public static function table(Table $table): Table
+    {
+        return LessonsTable::configure($table);
+    }
+
+    public static function getRelations(): array
+    {
+        return [
+            //
+        ];
+    }
+
+    public static function getPages(): array
+    {
+        return [
+            'index' => ListLessons::route('/'),
+            'create' => CreateLesson::route('/create'),
+            'edit' => EditLesson::route('/{record}/edit'),
+        ];
+    }
+}

@@ -1,0 +1,11 @@
+{
+    "name": "packages/sports",
+    "description": "Sports Package",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Packages\\Sports\\": "src/"
+        }
+    },
+    "require": {}
+}
