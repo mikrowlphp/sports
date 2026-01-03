@@ -1,11 +1,27 @@
 {
-    "name": "packages/sports",
-    "description": "Sports Package",
-    "type": "library",
+    "$schema": "https://getcomposer.org/schema.json",
+    "name": "mikrowl/sports",
+    "version": "1.0.0",
+    "type": "mikrowl-package",
+    "description": "Sports Package - Sports facility management",
+    "license": "MIT",
     "autoload": {
         "psr-4": {
             "Packages\\Sports\\": "src/"
         }
     },
-    "require": {}
+    "authors": [
+        {
+            "name": "cCast",
+            "email": "software@ccast.it"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "composer/installers": "^2.0"
+    },
+    "extra": {
+        "name": "sports"
+    },
+    "prefer-stable": true
 }
