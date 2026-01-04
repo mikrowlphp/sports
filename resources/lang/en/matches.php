@@ -17,7 +17,7 @@ return [
     'away_team' => 'Away Team',
     'home_player' => 'Home Player',
     'away_player' => 'Away Player',
-    'scheduled_at' => 'Scheduled At',
+    'scheduled_at' => 'Scheduled at',
     'court' => 'Court',
     'match_type' => 'Match Type',
     'status' => 'Status',

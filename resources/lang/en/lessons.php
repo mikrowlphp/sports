@@ -16,7 +16,7 @@ return [
     'description' => 'Description',
     'lesson_type' => 'Lesson Type',
     'sport' => 'Sport',
-    'scheduled_at' => 'Scheduled At',
+    'scheduled_at' => 'Scheduled at',
     'duration_minutes' => 'Duration (minutes)',
     'duration_helper' => 'Lesson duration in minutes',
     'minutes' => 'minutes',
