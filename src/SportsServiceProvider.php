@@ -46,9 +46,9 @@ class SportsServiceProvider extends PackageServiceProvider
     {
         $this->modules = [
             [
-                'name' => 'SportClub',
+                'name_key' => 'sports::modules.sportclub.name',
                 'slug' => 'sportclub',
-                'description' => 'Complete sports club management: members, teams, tournaments, matches, and lessons',
+                'description_key' => 'sports::modules.sportclub.description',
                 'panels' => [
                     'SportClub\\SportClubPanelProvider'
                 ],
