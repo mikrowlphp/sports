@@ -27,9 +27,24 @@ use Packages\Sports\SportClub\Policies\MatchResultPolicy;
 use Packages\Sports\SportClub\Policies\InstructorPolicy;
 use Packages\Sports\SportClub\Policies\LessonPolicy;
 use Packages\Sports\SportClub\Policies\LessonParticipantPolicy;
+use Packages\Sports\SportClub\Livewire\VideoPlayer;
+use Packages\Sports\SportClub\Livewire\MatchViewer;
+use Packages\Sports\SportClub\Livewire\SponsorPlacementEditor;
+use Livewire\Livewire;
 
 class SportsServiceProvider extends PackageServiceProvider
 {
+    public function boot(): void
+    {
+        parent::boot();
+
+        Livewire::component('sports::video-player', VideoPlayer::class);
+        Livewire::component('sports::match-viewer', MatchViewer::class);
+        Livewire::component('sports::sponsor-placement-editor', SponsorPlacementEditor::class);
+
+        // Load package routes
+        $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
+    }
 
 
     public function getPackageName(): string
@@ -46,9 +61,9 @@ class SportsServiceProvider extends PackageServiceProvider
     {
         $this->modules = [
             [
-                'name_key' => 'sports::modules.sportclub.name',
-                'slug' => 'sportclub',
-                'description_key' => 'sports::modules.sportclub.description',
+                'name_key' => 'sports::modules.sport-club.name',
+                'slug' => 'sport-club',
+                'description_key' => 'sports::modules.sport-club.description',
                 'panels' => [
                     'SportClub\\SportClubPanelProvider'
                 ],

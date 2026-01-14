@@ -46,5 +46,11 @@
     "training": "Allenamento",
     "volleyball": "Pallavolo",
     "winner": "Vincitrice",
-    "withdrawn": "Ritirata"
+    "withdrawn": "Ritirata",
+    "top_left": "Alto Sinistra",
+    "top_center": "Alto Centro",
+    "top_right": "Alto Destra",
+    "bottom_left": "Basso Sinistra",
+    "bottom_center": "Basso Centro",
+    "bottom_right": "Basso Destra"
 }

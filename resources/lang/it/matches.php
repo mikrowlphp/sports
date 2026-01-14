@@ -38,4 +38,38 @@ return [
     'filter_by_status' => 'Filtra per stato',
     'filter_by_match_type' => 'Filtra per tipo',
     'filter_by_tournament' => 'Filtra per torneo',
+
+    // Video & Recording
+    'video_section' => 'Video e Sponsor',
+    'video_section_desc' => 'Configura la registrazione video e gli sponsor da mostrare nel player',
+    'video_url' => 'URL Video',
+    'video_url_placeholder' => 'https://esempio.com/video.m3u8',
+    'recording_enabled' => 'Registrazione Abilitata',
+
+    // Sponsor Placements
+    'sponsor_placements' => 'Sponsor',
+    'position' => 'Posizione',
+    'select_sponsor' => 'Seleziona Sponsor',
+    'select_sponsor_desc' => 'Scegli uno sponsor da posizionare nel player video',
+    'duplicate_position' => 'Ogni posizione può essere assegnata a un solo sponsor',
+    'remove_sponsor' => 'Rimuovi sponsor',
+    'video_preview' => 'Anteprima Video',
+    'cancel' => 'Annulla',
+    'no_video_available' => 'Nessun video disponibile per questa partita',
+
+    // Camera/Playlist
+    'camera_1' => 'Camera 1',
+    'camera_2' => 'Camera 2',
+    'camera_3' => 'Camera 3',
+    'camera_4' => 'Camera 4',
+
+    // Playlist/Clips
+    'playlist' => 'Playlist',
+    'clips' => 'Clips',
+    'clip' => 'Clip',
+    'full_match' => 'Partita completa',
+    'no_clips' => 'Nessuna clip disponibile',
+
+    // Player controls
+    'back_to_match' => 'Torna alla partita',
 ];

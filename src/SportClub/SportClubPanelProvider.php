@@ -11,8 +11,8 @@ class SportClubPanelProvider extends PanelProvider
     public function panel(Panel $panel): Panel
     {
         return $panel
-            ->id('sportclub')
-            ->path('mikrowl/sportclub')
+            ->id('sport-club')
+            ->path('mikrowl/sport-club')
            ->discoverForPackage('sports', 'sport-club')
             ->tenantPanel();
     }

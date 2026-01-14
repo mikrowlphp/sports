@@ -5,6 +5,8 @@ namespace Packages\Sports\SportClub\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Packages\Core\Contacts\Models\Contact;
 use Packages\Sports\SportClub\Enums\MatchStatus;
@@ -31,12 +33,15 @@ class SportMatch extends Model
         'match_type',
         'status',
         'notes',
+        'video_url',
+        'recording_enabled',
     ];
 
     protected $casts = [
         'scheduled_at' => 'datetime',
         'match_type' => MatchType::class,
         'status' => MatchStatus::class,
+        'recording_enabled' => 'boolean',
     ];
 
     /**
@@ -109,5 +114,23 @@ class SportMatch extends Model
     public function scopeUpcoming($query)
     {
         return $query->where('scheduled_at', '>', now())->orderBy('scheduled_at');
+    }
+
+    /**
+     * Get all sponsor placements for this match.
+     */
+    public function sponsorPlacements(): HasMany
+    {
+        return $this->hasMany(MatchSponsorPlacement::class, 'match_id');
+    }
+
+    /**
+     * Get all sponsors for this match.
+     */
+    public function sponsors(): BelongsToMany
+    {
+        return $this->belongsToMany(Sponsor::class, 'match_sponsor_placements', 'match_id', 'sponsor_id')
+            ->withPivot('position')
+            ->withTimestamps();
     }
 }

@@ -46,5 +46,11 @@
     "training": "Training",
     "volleyball": "Volleyball",
     "winner": "Winner",
-    "withdrawn": "Withdrawn"
+    "withdrawn": "Withdrawn",
+    "top_left": "Top Left",
+    "top_center": "Top Center",
+    "top_right": "Top Right",
+    "bottom_left": "Bottom Left",
+    "bottom_center": "Bottom Center",
+    "bottom_right": "Bottom Right"
 }

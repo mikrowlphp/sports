@@ -25,7 +25,7 @@ class MatchesTable
                 TextColumn::make('match_display')
                     ->label(__('sports::matches.match'))
                     ->formatStateUsing(function ($record): string {
-                        if ($record->match_type === MatchType::Team->value) {
+                        if ($record->match_type === MatchType::Team) {
                             $home = $record->homeTeam?->name ?? __('sports::matches.tbd');
                             $away = $record->awayTeam?->name ?? __('sports::matches.tbd');
                             return "{$home} vs {$away}";
@@ -64,24 +64,20 @@ class MatchesTable
                 TextColumn::make('match_type')
                     ->label(__('sports::matches.match_type'))
                     ->badge()
-                    ->formatStateUsing(fn (string $state): string => MatchType::from($state)->getLabel())
-                    ->color(fn (string $state): string => match($state) {
-                        MatchType::Team->value => 'info',
-                        MatchType::Individual->value => 'warning',
-                        default => 'gray',
+                    ->color(fn (MatchType $state): string => match($state) {
+                        MatchType::Team => 'info',
+                        MatchType::Individual => 'warning',
                     }),
 
                 TextColumn::make('status')
                     ->label(__('sports::matches.status'))
                     ->badge()
-                    ->formatStateUsing(fn (string $state): string => MatchStatus::from($state)->getLabel())
-                    ->color(fn (string $state): string => match($state) {
-                        MatchStatus::Scheduled->value => 'info',
-                        MatchStatus::InProgress->value => 'warning',
-                        MatchStatus::Completed->value => 'success',
-                        MatchStatus::Cancelled->value => 'danger',
-                        MatchStatus::Postponed->value => 'gray',
-                        default => 'gray',
+                    ->color(fn (MatchStatus $state): string => match($state) {
+                        MatchStatus::Scheduled => 'info',
+                        MatchStatus::InProgress => 'warning',
+                        MatchStatus::Completed => 'success',
+                        MatchStatus::Cancelled => 'danger',
+                        MatchStatus::Postponed => 'gray',
                     }),
 
                 TextColumn::make('created_at')
