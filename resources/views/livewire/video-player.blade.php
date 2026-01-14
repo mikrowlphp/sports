@@ -16,6 +16,39 @@
         showCameraMenu: false,
         activeClip: null,
         mainVideoUrl: @js($this->primaryVideoUrl),
+        showControls: true,
+        controlsTimeout: null,
+        isMobile: window.matchMedia('(max-width: 768px)').matches,
+
+        toggleControls() {
+            this.showControls = !this.showControls;
+            if (this.showControls) {
+                this.startControlsTimer();
+            }
+        },
+
+        showControlsTemporarily() {
+            this.showControls = true;
+            this.startControlsTimer();
+        },
+
+        startControlsTimer() {
+            if (this.controlsTimeout) {
+                clearTimeout(this.controlsTimeout);
+            }
+            if (this.isPlaying) {
+                this.controlsTimeout = setTimeout(() => {
+                    this.showControls = false;
+                }, 3000);
+            }
+        },
+
+        cancelControlsTimer() {
+            if (this.controlsTimeout) {
+                clearTimeout(this.controlsTimeout);
+                this.controlsTimeout = null;
+            }
+        },
 
         formatTime(seconds) {
             if (isNaN(seconds) || seconds < 0) return '0:00';
@@ -195,9 +228,16 @@
                 this.loadSource(this.sources[this.activeIndex].url);
             }
 
-            // Track play state
-            video.addEventListener('play', () => this.isPlaying = true);
-            video.addEventListener('pause', () => this.isPlaying = false);
+            // Track play state and manage controls visibility
+            video.addEventListener('play', () => {
+                this.isPlaying = true;
+                this.startControlsTimer();
+            });
+            video.addEventListener('pause', () => {
+                this.isPlaying = false;
+                this.cancelControlsTimer();
+                this.showControls = true;
+            });
 
             // Track time updates
             video.addEventListener('timeupdate', () => {
@@ -221,6 +261,18 @@
             document.addEventListener('fullscreenchange', () => {
                 this.isFullscreen = !!document.fullscreenElement;
                 this.$nextTick(() => this.updateVideoRect());
+            });
+
+            // Show controls on mouse move (desktop)
+            this.$refs.container.addEventListener('mousemove', () => {
+                if (!this.isMobile) {
+                    this.showControlsTemporarily();
+                }
+            });
+
+            // Update isMobile on resize
+            window.matchMedia('(max-width: 768px)').addEventListener('change', (e) => {
+                this.isMobile = e.matches;
             });
 
             // Close camera menu on click outside
@@ -251,8 +303,9 @@
     <video
         x-ref="video"
         id="video-{{ $match->id }}"
-        class="w-full h-full"
+        class="w-full h-full cursor-pointer"
         playsinline
+        @click="toggleControls()"
     ></video>
 
     {{-- Back to main video button (when viewing a clip) --}}
@@ -274,11 +327,16 @@
     </div>
 
     {{-- Custom controls overlay --}}
-    <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-2 opacity-0 hover:opacity-100 transition-opacity"
-         :style="{ left: videoRect.left, width: videoRect.width, bottom: videoRect.top }">
+    <div
+        class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-2 transition-opacity duration-300"
+        :class="showControls ? 'opacity-100' : 'opacity-0 pointer-events-none'"
+        :style="{ left: videoRect.left, width: videoRect.width, bottom: videoRect.top }"
+        @mouseenter="cancelControlsTimer()"
+        @mouseleave="isPlaying && startControlsTimer()"
+    >
 
         {{-- Timeline with tag markers --}}
-        <div class="relative w-full h-6 mb-2 cursor-pointer group" @click="seekTo($event)">
+        <div class="relative w-full h-8 sm:h-6 mb-2 cursor-pointer group" @click.stop="seekTo($event)">
             {{-- Tag markers (above progress bar) --}}
             <template x-for="(tag, index) in tags" :key="tag.id">
                 <div
@@ -287,7 +345,7 @@
                     @click.stop="onTagClick(tag)"
                 >
                     {{-- Marker dot --}}
-                    <div class="w-3 h-3 bg-amber-500 rounded-full hover:bg-amber-400 hover:scale-125 transition-all shadow-lg"
+                    <div class="w-4 h-4 sm:w-3 sm:h-3 bg-amber-500 rounded-full hover:bg-amber-400 hover:scale-125 transition-all shadow-lg"
                          :title="tag.description || ('Tag ' + (index + 1))">
                     </div>
                     {{-- Tooltip on hover --}}
@@ -309,15 +367,15 @@
         </div>
 
         {{-- Controls row --}}
-        <div class="flex items-center gap-2">
+        <div class="flex items-center gap-3 sm:gap-2">
             {{-- Play/Pause --}}
-            <button @click="$refs.video.paused ? $refs.video.play() : $refs.video.pause()" class="text-white p-1 hover:bg-white/20 rounded transition-colors">
-                <svg x-show="!isPlaying" class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                <svg x-show="isPlaying" class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+            <button @click.stop="$refs.video.paused ? $refs.video.play() : $refs.video.pause()" class="text-white p-2 sm:p-1 hover:bg-white/20 rounded transition-colors">
+                <svg x-show="!isPlaying" class="w-7 h-7 sm:w-6 sm:h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                <svg x-show="isPlaying" class="w-7 h-7 sm:w-6 sm:h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
             </button>
 
             {{-- Time display --}}
-            <div class="text-white text-sm font-mono">
+            <div class="text-white text-xs sm:text-sm font-mono">
                 <span x-text="formatTime(currentTime)"></span>
                 <span class="text-white/60">/</span>
                 <span x-text="formatTime(duration)"></span>
@@ -327,19 +385,19 @@
             <div class="flex-1"></div>
 
             {{-- Mute --}}
-            <button @click="$refs.video.muted = !$refs.video.muted" class="text-white p-1 hover:bg-white/20 rounded transition-colors">
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+            <button @click.stop="$refs.video.muted = !$refs.video.muted" class="text-white p-2 sm:p-1 hover:bg-white/20 rounded transition-colors">
+                <svg class="w-6 h-6 sm:w-5 sm:h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
             </button>
 
             {{-- Camera selector (moved here) --}}
             @if(count($this->videoSources) > 1)
                 <div class="relative" x-ref="cameraMenuContainer">
                     <button
-                        @click="showCameraMenu = !showCameraMenu"
-                        class="text-white p-1 hover:bg-white/20 rounded transition-colors flex items-center gap-1"
+                        @click.stop="showCameraMenu = !showCameraMenu"
+                        class="text-white p-2 sm:p-1 hover:bg-white/20 rounded transition-colors flex items-center gap-1"
                         :class="showCameraMenu ? 'bg-white/20' : ''"
                     >
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-6 h-6 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
                         </svg>
                         <span class="text-xs" x-text="activeIndex + 1"></span>
@@ -378,9 +436,9 @@
             @endif
 
             {{-- Fullscreen --}}
-            <button @click="toggleFullscreen()" class="text-white p-1 hover:bg-white/20 rounded transition-colors">
-                <svg x-show="!isFullscreen" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>
-                <svg x-show="isFullscreen" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"/></svg>
+            <button @click.stop="toggleFullscreen()" class="text-white p-2 sm:p-1 hover:bg-white/20 rounded transition-colors">
+                <svg x-show="!isFullscreen" class="w-6 h-6 sm:w-5 sm:h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>
+                <svg x-show="isFullscreen" class="w-6 h-6 sm:w-5 sm:h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"/></svg>
             </button>
         </div>
     </div>
