@@ -21,6 +21,21 @@ class InstructorResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
+    public static function getModelLabel(): string
+    {
+        return __('sports::instructors.navigation.label');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('sports::instructors.navigation.plural');
+    }
+
+    public static function getNavigationGroup(): ?string
+    {
+        return __('sports::instructors.navigation.group');
+    }
+
     public static function form(Schema $schema): Schema
     {
         return InstructorForm::configure($schema);

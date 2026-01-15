@@ -20,6 +20,21 @@ class SubscriptionResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
+    public static function getModelLabel(): string
+    {
+        return __('sports::members.subscriptions.navigation.label');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('sports::members.subscriptions.navigation.plural');
+    }
+
+    public static function getNavigationGroup(): ?string
+    {
+        return __('sports::members.navigation.group');
+    }
+
     public static function form(Schema $schema): Schema
     {
         return SubscriptionForm::configure($schema);

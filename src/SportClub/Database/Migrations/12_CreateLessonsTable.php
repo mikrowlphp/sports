@@ -20,7 +20,7 @@ class CreateLessonsTable extends Migration
                 $table->string('title');
                 $table->text('description')->nullable();
                 $table->string('lesson_type');
-                $table->string('sport');
+                $table->foreignId('sport_id')->constrained('sports')->cascadeOnDelete();
                 $table->datetime('scheduled_at');
                 $table->integer('duration_minutes');
                 $table->integer('max_participants')->default(1);

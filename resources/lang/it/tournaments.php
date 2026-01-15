@@ -1,6 +1,12 @@
 <?php
 
 return [
+    'navigation' => [
+        'label' => 'Torneo',
+        'plural' => 'Tornei',
+        'group' => 'Competizioni',
+    ],
+
     // Resource labels
     'tournament' => 'Torneo',
     'tournaments' => 'Tornei',

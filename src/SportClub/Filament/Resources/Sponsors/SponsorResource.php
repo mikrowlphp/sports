@@ -20,6 +20,21 @@ class SponsorResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedMegaphone;
 
+    public static function getModelLabel(): string
+    {
+        return __('sports::sponsors.navigation.label');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('sports::sponsors.navigation.plural');
+    }
+
+    public static function getNavigationGroup(): ?string
+    {
+        return __('sports::sponsors.navigation.group');
+    }
+
     public static function form(Schema $schema): Schema
     {
         return SponsorForm::configure($schema);

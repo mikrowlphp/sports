@@ -2,7 +2,9 @@
 
 namespace Packages\Sports\SportClub\Enums;
 
-enum SponsorPosition: string
+use Filament\Support\Contracts\HasLabel;
+
+enum SponsorPosition: string implements HasLabel
 {
     case TopLeft = 'top_left';
     case TopCenter = 'top_center';
@@ -11,9 +13,9 @@ enum SponsorPosition: string
     case BottomCenter = 'bottom_center';
     case BottomRight = 'bottom_right';
 
-    public function label(): string
+    public function getLabel(): string
     {
-        return __($this->value);
+        return __('sports::enums.sponsor_position.' . $this->value);
     }
 
     /**

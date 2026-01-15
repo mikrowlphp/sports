@@ -1,22 +1,36 @@
 <x-dynamic-component :component="$getFieldWrapperView()" :field="$field">
+    @if(!$getHasAnySponsors())
+        {{-- No sponsors message --}}
+        <div class="relative w-full aspect-video bg-gradient-to-br from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-800 rounded-xl overflow-hidden border-2 border-dashed border-gray-400 dark:border-gray-600 flex items-center justify-center">
+            <div class="text-center p-6">
+                <x-heroicon-o-megaphone class="w-12 h-12 mx-auto text-gray-400 dark:text-gray-500 mb-3" />
+                <p class="text-gray-600 dark:text-gray-400 font-medium">{{ __('sports::sponsors.no_sponsors_available') }}</p>
+                <p class="text-sm text-gray-500 dark:text-gray-500 mt-1">{{ __('sports::sponsors.create_sponsor_first') }}</p>
+            </div>
+        </div>
+    @else
+    @php
+        $initialState = $getState() ?? [];
+        $positions = collect($getPositions())->map(fn($p) => $p->value)->toArray();
+    @endphp
     <div
         x-data="{
             state: $wire.$entangle('{{ $getStatePath() }}'),
+            initialState: @js($initialState),
             sizes: {},
-            sponsors: @js($getSponsors()->keyBy('id')->toArray()),
+            sponsors: @js($getAllSponsors()->keyBy('id')->toArray()),
+            positions: @js($positions),
 
             init() {
-                // Ensure state is always an object
-                this.$watch('state', (value) => {
-                    if (!value || typeof value !== 'object') {
-                        this.state = {};
+                // Use initial state if entangle returns empty or not an object
+                if (!this.state || typeof this.state !== 'object' || Object.keys(this.state).length === 0) {
+                    if (this.initialState && typeof this.initialState === 'object' && Object.keys(this.initialState).length > 0) {
+                        this.state = {...this.initialState};
                     }
-                }, { immediate: true });
+                }
 
                 // Initialize sizes for all positions
-                @foreach($getPositions() as $position)
-                this.sizes['{{ $position->value }}'] = 80;
-                @endforeach
+                this.positions.forEach(pos => this.sizes[pos] = 80);
             },
 
             getState(position) {
@@ -36,6 +50,16 @@
 
             updateSize(position, delta) {
                 this.sizes[position] = Math.max(50, Math.min(120, this.sizes[position] + delta));
+            },
+
+            getSelectedCount() {
+                if (!this.state) return 0;
+                return Object.values(this.state).filter(v => v).length;
+            },
+
+            hasAvailableSponsors() {
+                const totalSponsors = Object.keys(this.sponsors).length;
+                return this.getSelectedCount() < totalSponsors;
             }
         }"
         class="sponsor-placement-field relative"
@@ -105,7 +129,7 @@
                     </template>
 
                     {{-- Empty slot --}}
-                    <template x-if="!getState('{{ $positionValue }}')">
+                    <template x-if="!getState('{{ $positionValue }}') && hasAvailableSponsors()">
                         <div class="fi-fo-action">
                             @php
                                 $selectAction = $getAction('selectSponsor');
@@ -136,4 +160,5 @@
             @endforeach
         </div>
     </div>
+    @endif
 </x-dynamic-component>

@@ -4,9 +4,11 @@ namespace Packages\Sports\SportClub\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Packages\Core\Contacts\Models\Contact;
+use Packages\Sports\SportClub\Models\Sport;
 use Packages\Sports\SportClub\Models\SportMatch;
 
 class Team extends Model
@@ -16,7 +18,7 @@ class Team extends Model
     protected $fillable = [
         'name',
         'slug',
-        'sport',
+        'sport_id',
         'category',
         'level',
         'max_members',
@@ -28,6 +30,14 @@ class Team extends Model
         'max_members' => 'integer',
         'is_active' => 'boolean',
     ];
+
+    /**
+     * Get the sport this team belongs to.
+     */
+    public function sport(): BelongsTo
+    {
+        return $this->belongsTo(Sport::class);
+    }
 
     /**
      * Get all team members (pivot records with extra data).
@@ -59,9 +69,9 @@ class Team extends Model
     /**
      * Scope teams by sport.
      */
-    public function scopeBySport($query, string $sport)
+    public function scopeBySport($query, int $sportId)
     {
-        return $query->where('sport', $sport);
+        return $query->where('sport_id', $sportId);
     }
 
     /**

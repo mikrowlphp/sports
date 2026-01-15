@@ -14,6 +14,8 @@
  * - Match: Manage matches and results
  * - Instructor: Manage instructors
  * - Lesson: Manage lessons (group and individual)
+ * - Sponsor: Manage sponsors and sponsorship agreements
+ * - SponsorContract: Manage sponsor contracts and view limits
  */
 
 return [
@@ -85,5 +87,45 @@ return [
         'resource' => 'lessons',
         'action' => 'manage',
         'description' => 'Full CRUD access to lessons and participants',
+    ],
+
+    // Sports CRUD
+    [
+        'name' => 'Manage sports',
+        'code' => 'manage-sports',
+        'namespace' => 'sportclub',
+        'resource' => 'sports',
+        'action' => 'manage',
+        'description' => 'Full CRUD access to sports configuration',
+    ],
+
+    // Fields CRUD
+    [
+        'name' => 'Manage fields',
+        'code' => 'manage-fields',
+        'namespace' => 'sportclub',
+        'resource' => 'fields',
+        'action' => 'manage',
+        'description' => 'Full CRUD access to sports fields/courts',
+    ],
+
+    // Sponsors CRUD
+    [
+        'name' => 'Manage sponsors',
+        'code' => 'manage-sponsors',
+        'namespace' => 'sportclub',
+        'resource' => 'sponsors',
+        'action' => 'manage',
+        'description' => 'Full CRUD access to sponsors',
+    ],
+
+    // Sponsor Contracts CRUD
+    [
+        'name' => 'Manage sponsor contracts',
+        'code' => 'manage-sponsor-contracts',
+        'namespace' => 'sportclub',
+        'resource' => 'sponsor-contracts',
+        'action' => 'manage',
+        'description' => 'Full CRUD access to sponsor contracts and view limits',
     ],
 ];

@@ -27,7 +27,7 @@ class TeamsTable
                     ->searchable()
                     ->sortable(),
 
-                TextColumn::make('sport')
+                TextColumn::make('sport.name')
                     ->label(__('sports::teams.sport'))
                     ->searchable()
                     ->sortable(),
@@ -60,14 +60,11 @@ class TeamsTable
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                SelectFilter::make('sport')
+                SelectFilter::make('sport_id')
                     ->label(__('sports::teams.filter_by_sport'))
-                    ->options(function () {
-                        return \Packages\Sports\SportClub\Models\Team::query()
-                            ->distinct()
-                            ->pluck('sport', 'sport')
-                            ->toArray();
-                    }),
+                    ->relationship('sport', 'name')
+                    ->searchable()
+                    ->preload(),
 
                 TernaryFilter::make('is_active')
                     ->label(__('sports::teams.active_filter'))

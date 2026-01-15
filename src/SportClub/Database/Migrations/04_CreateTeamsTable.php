@@ -18,7 +18,7 @@ class CreateTeamsTable extends Migration
                 $table->id();
                 $table->string('name');
                 $table->string('slug')->unique();
-                $table->string('sport');
+                $table->foreignId('sport_id')->constrained('sports')->cascadeOnDelete();
                 $table->string('category')->nullable();
                 $table->string('level')->nullable();
                 $table->integer('max_members')->nullable();
@@ -27,7 +27,7 @@ class CreateTeamsTable extends Migration
                 $table->timestamps();
 
                 // Indexes
-                $table->index('sport');
+                $table->index('sport_id');
                 $table->index('is_active');
             });
         }

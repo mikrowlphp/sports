@@ -1,11 +1,29 @@
 <?php
 
 return [
+    'navigation' => [
+        'group' => 'Iscrizioni',
+    ],
+
+    'membership_types' => [
+        'navigation' => [
+            'label' => 'Tipo Iscrizione',
+            'plural' => 'Tipi Iscrizione',
+        ],
+    ],
+
+    'subscriptions' => [
+        'navigation' => [
+            'label' => 'Iscrizione',
+            'plural' => 'Iscrizioni',
+        ],
+    ],
+
     // Resource labels
     'membership_type' => 'Tipo Iscrizione',
-    'membership_types' => 'Tipi Iscrizione',
+    'membership_types_label' => 'Tipi Iscrizione',
     'subscription' => 'Iscrizione',
-    'subscriptions' => 'Iscrizioni',
+    'subscriptions_label' => 'Iscrizioni',
 
     // MembershipType Form/Table
     'membership_type_information' => 'Informazioni Tipo Iscrizione',

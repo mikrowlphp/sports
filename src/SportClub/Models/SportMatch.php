@@ -22,6 +22,7 @@ class SportMatch extends Model
     protected $table = 'matches';
 
     protected $fillable = [
+        'name',
         'tournament_id',
         'round_id',
         'home_team_id',

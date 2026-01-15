@@ -20,6 +20,21 @@ class LessonResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
+    public static function getModelLabel(): string
+    {
+        return __('sports::lessons.navigation.label');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('sports::lessons.navigation.plural');
+    }
+
+    public static function getNavigationGroup(): ?string
+    {
+        return __('sports::lessons.navigation.group');
+    }
+
     public static function form(Schema $schema): Schema
     {
         return LessonForm::configure($schema);

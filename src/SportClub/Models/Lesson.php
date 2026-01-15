@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Packages\Core\Contacts\Models\Contact;
 use Packages\Sports\SportClub\Enums\LessonStatus;
 use Packages\Sports\SportClub\Enums\LessonType;
+use Packages\Sports\SportClub\Models\Sport;
 
 class Lesson extends Model
 {
@@ -20,7 +21,7 @@ class Lesson extends Model
         'title',
         'description',
         'lesson_type',
-        'sport',
+        'sport_id',
         'scheduled_at',
         'duration_minutes',
         'max_participants',
@@ -45,6 +46,14 @@ class Lesson extends Model
     public function instructor(): BelongsTo
     {
         return $this->belongsTo(Instructor::class);
+    }
+
+    /**
+     * Get the sport for this lesson.
+     */
+    public function sport(): BelongsTo
+    {
+        return $this->belongsTo(Sport::class);
     }
 
     /**

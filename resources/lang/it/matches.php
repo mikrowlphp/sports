@@ -1,6 +1,12 @@
 <?php
 
 return [
+    'navigation' => [
+        'label' => 'Partita',
+        'plural' => 'Partite',
+        'group' => 'Competizioni',
+    ],
+
     // Resource labels
     'match' => 'Partita',
     'matches' => 'Partite',
@@ -8,6 +14,7 @@ return [
     'match_results' => 'Risultati',
 
     // Form/Table fields
+    'name' => 'Nome partita',
     'match_information' => 'Informazioni Partita',
     'match_information_desc' => 'Dati principali della partita',
     'tournament' => 'Torneo',

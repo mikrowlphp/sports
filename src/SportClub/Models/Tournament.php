@@ -4,6 +4,7 @@ namespace Packages\Sports\SportClub\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Packages\Sports\SportClub\Models\Team;
@@ -17,7 +18,7 @@ class Tournament extends Model
     protected $fillable = [
         'name',
         'slug',
-        'sport',
+        'sport_id',
         'description',
         'start_date',
         'end_date',
@@ -37,6 +38,14 @@ class Tournament extends Model
         'max_teams' => 'integer',
         'entry_fee' => 'decimal:2',
     ];
+
+    /**
+     * Get the sport for this tournament.
+     */
+    public function sport(): BelongsTo
+    {
+        return $this->belongsTo(Sport::class);
+    }
 
     /**
      * Get all rounds for this tournament.

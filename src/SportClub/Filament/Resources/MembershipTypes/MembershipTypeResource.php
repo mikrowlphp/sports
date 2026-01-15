@@ -20,7 +20,20 @@ class MembershipTypeResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedTicket;
 
-    protected static string|\UnitEnum|null $navigationGroup = 'Members';
+    public static function getModelLabel(): string
+    {
+        return __('sports::members.membership_types.navigation.label');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('sports::members.membership_types.navigation.plural');
+    }
+
+    public static function getNavigationGroup(): ?string
+    {
+        return __('sports::members.navigation.group');
+    }
 
     public static function form(Schema $schema): Schema
     {

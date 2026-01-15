@@ -17,13 +17,11 @@ class Instructor extends Model
         'specializations',
         'bio',
         'hourly_rate',
-        'is_active',
     ];
 
     protected $casts = [
         'specializations' => 'array',
         'hourly_rate' => 'decimal:2',
-        'is_active' => 'boolean',
     ];
 
     /**
@@ -42,11 +40,4 @@ class Instructor extends Model
         return $this->hasMany(Lesson::class);
     }
 
-    /**
-     * Scope active instructors.
-     */
-    public function scopeActive($query)
-    {
-        return $query->where('is_active', true);
-    }
 }

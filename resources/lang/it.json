@@ -52,5 +52,10 @@
     "top_right": "Alto Destra",
     "bottom_left": "Basso Sinistra",
     "bottom_center": "Basso Centro",
-    "bottom_right": "Basso Destra"
+    "bottom_right": "Basso Destra",
+    "Dashboard": "Dashboard",
+    "Sport Club Dashboard": "Dashboard Sport Club",
+    "Overview of matches and lessons": "Panoramica di partite e lezioni",
+    "Match": "Partita",
+    "Tournament Match": "Partita di Torneo"
 }

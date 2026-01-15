@@ -36,6 +36,14 @@ class Sponsor extends Model
     }
 
     /**
+     * Get all contracts for this sponsor.
+     */
+    public function contracts(): HasMany
+    {
+        return $this->hasMany(SponsorContract::class);
+    }
+
+    /**
      * Get all match placements for this sponsor.
      */
     public function placements(): HasMany

@@ -27,8 +27,24 @@ class SponsorPlacementField extends Field
                 ->size('sm')
                 ->modalHeading(__('sports::matches.select_sponsor'))
                 ->modalWidth('sm')
-                ->schema(function () {
-                    $sponsors = Sponsor::where('active', true)->orderBy('name')->get();
+                ->schema(function (self $component) {
+                    // Get already selected sponsor IDs
+                    $state = $component->getState() ?? [];
+                    $selectedIds = array_filter(array_values($state));
+
+                    $sponsors = Sponsor::where('active', true)
+                        ->whereHas('contracts', function ($query) {
+                            $query->where('is_active', true)
+                                  ->where('start_date', '<=', now())
+                                  ->where('end_date', '>=', now())
+                                  ->where(function ($q) {
+                                      $q->whereNull('max_views')
+                                        ->orWhereColumn('used_views', '<', 'max_views');
+                                  });
+                        })
+                        ->whereNotIn('id', $selectedIds)
+                        ->orderBy('name')
+                        ->get();
                     $options = $sponsors->mapWithKeys(fn ($s) => [$s->id => $s->name])->toArray();
 
                     return [
@@ -95,14 +111,80 @@ class SponsorPlacementField extends Field
         return SponsorPosition::cases();
     }
 
+    /**
+     * Get sponsors with active contracts (for selecting NEW sponsors)
+     */
     public function getSponsors()
     {
-        return Sponsor::where('active', true)->orderBy('name')->get()->map(function ($sponsor) {
-            $sponsor->logo_url = $sponsor->logo
-                ? \Storage::disk('s3')->temporaryUrl($sponsor->logo, now()->addHour())
-                : null;
-            return $sponsor;
-        });
+        return Sponsor::where('active', true)
+            ->whereHas('contracts', function ($query) {
+                $query->where('is_active', true)
+                      ->where('start_date', '<=', now())
+                      ->where('end_date', '>=', now())
+                      ->where(function ($q) {
+                          $q->whereNull('max_views')
+                            ->orWhereColumn('used_views', '<', 'max_views');
+                      });
+            })
+            ->orderBy('name')
+            ->get()
+            ->map(function ($sponsor) {
+                $sponsor->logo_url = $sponsor->logo
+                    ? \Storage::disk('s3')->temporaryUrl($sponsor->logo, now()->addHour())
+                    : null;
+                return $sponsor;
+            });
+    }
+
+    /**
+     * Get ALL active sponsors (for displaying already assigned sponsors)
+     * No contract filter - assigned sponsors should always be visible
+     */
+    public function getAllSponsors()
+    {
+        return Sponsor::where('active', true)
+            ->orderBy('name')
+            ->get()
+            ->map(function ($sponsor) {
+                $sponsor->logo_url = $sponsor->logo
+                    ? \Storage::disk('s3')->temporaryUrl($sponsor->logo, now()->addHour())
+                    : null;
+                return $sponsor;
+            });
+    }
+
+    public function getHasAnySponsors(): bool
+    {
+        return Sponsor::where('active', true)
+            ->whereHas('contracts', function ($query) {
+                $query->where('is_active', true)
+                      ->where('start_date', '<=', now())
+                      ->where('end_date', '>=', now())
+                      ->where(function ($q) {
+                          $q->whereNull('max_views')
+                            ->orWhereColumn('used_views', '<', 'max_views');
+                      });
+            })
+            ->exists();
+    }
+
+    public function getAvailableSponsorsCount(): int
+    {
+        $state = $this->getState() ?? [];
+        $selectedIds = array_filter(array_values($state));
+
+        return Sponsor::where('active', true)
+            ->whereHas('contracts', function ($query) {
+                $query->where('is_active', true)
+                      ->where('start_date', '<=', now())
+                      ->where('end_date', '>=', now())
+                      ->where(function ($q) {
+                          $q->whereNull('max_views')
+                            ->orWhereColumn('used_views', '<', 'max_views');
+                      });
+            })
+            ->whereNotIn('id', $selectedIds)
+            ->count();
     }
 
 }

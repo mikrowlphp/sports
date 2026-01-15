@@ -16,6 +16,7 @@ class CreateMatchesTable extends Migration
         if (!Schema::hasTable('matches')) {
             Schema::create('matches', function (Blueprint $table) {
                 $table->id();
+                $table->string('name');
                 $table->foreignId('tournament_id')->nullable()->constrained('tournaments')->nullOnDelete();
                 $table->foreignId('round_id')->nullable()->constrained('tournament_rounds')->nullOnDelete();
                 $table->foreignId('home_team_id')->nullable()->constrained('teams')->nullOnDelete();

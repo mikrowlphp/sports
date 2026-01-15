@@ -1,6 +1,12 @@
 <?php
 
 return [
+    'navigation' => [
+        'label' => 'Istruttore',
+        'plural' => 'Istruttori',
+        'group' => 'Gestione',
+    ],
+
     // Resource labels
     'instructor' => 'Istruttore',
     'instructors' => 'Istruttori',

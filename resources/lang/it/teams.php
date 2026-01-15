@@ -1,6 +1,12 @@
 <?php
 
 return [
+    'navigation' => [
+        'label' => 'Squadra',
+        'plural' => 'Squadre',
+        'group' => 'Competizioni',
+    ],
+
     // Resource labels
     'team' => 'Squadra',
     'teams' => 'Squadre',

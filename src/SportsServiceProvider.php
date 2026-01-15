@@ -15,6 +15,8 @@ use Packages\Sports\SportClub\Models\MatchResult;
 use Packages\Sports\SportClub\Models\Instructor;
 use Packages\Sports\SportClub\Models\Lesson;
 use Packages\Sports\SportClub\Models\LessonParticipant;
+use Packages\Sports\SportClub\Models\Sport;
+use Packages\Sports\SportClub\Models\Field;
 use Packages\Sports\SportClub\Policies\MembershipTypePolicy;
 use Packages\Sports\SportClub\Policies\SubscriptionPolicy;
 use Packages\Sports\SportClub\Policies\TeamPolicy;
@@ -27,9 +29,10 @@ use Packages\Sports\SportClub\Policies\MatchResultPolicy;
 use Packages\Sports\SportClub\Policies\InstructorPolicy;
 use Packages\Sports\SportClub\Policies\LessonPolicy;
 use Packages\Sports\SportClub\Policies\LessonParticipantPolicy;
+use Packages\Sports\SportClub\Policies\SportPolicy;
+use Packages\Sports\SportClub\Policies\FieldPolicy;
 use Packages\Sports\SportClub\Livewire\VideoPlayer;
 use Packages\Sports\SportClub\Livewire\MatchViewer;
-use Packages\Sports\SportClub\Livewire\SponsorPlacementEditor;
 use Livewire\Livewire;
 
 class SportsServiceProvider extends PackageServiceProvider
@@ -40,7 +43,6 @@ class SportsServiceProvider extends PackageServiceProvider
 
         Livewire::component('sports::video-player', VideoPlayer::class);
         Livewire::component('sports::match-viewer', MatchViewer::class);
-        Livewire::component('sports::sponsor-placement-editor', SponsorPlacementEditor::class);
 
         // Load package routes
         $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
@@ -100,6 +102,10 @@ class SportsServiceProvider extends PackageServiceProvider
             Instructor::class => InstructorPolicy::class,
             Lesson::class => LessonPolicy::class,
             LessonParticipant::class => LessonParticipantPolicy::class,
+
+            // Sport policies
+            Sport::class => SportPolicy::class,
+            Field::class => FieldPolicy::class,
         ];
     }
 
