@@ -32,7 +32,7 @@ class SportsTable
 
                 TextColumn::make('icon')
                     ->label(__('Icona'))
-                    ->icon(fn ($record) => $record->icon ?? 'heroicon-o-trophy'),
+                    ->alignCenter(),
 
                 ToggleColumn::make('is_active')
                     ->label(__('Attivo'))

@@ -64,12 +64,7 @@ class MembershipTypeForm
                         Section::make()
                             ->schema([
                                 Group::make([
-                                    TextInput::make('slug')
-                                        ->required()
-                                        ->maxLength(255)
-                                        ->unique(ignoreRecord: true)
-                                        ->helperText(__('sports::members.slug_helper'))
-                                        ->columnSpanFull(),
+                                    // Slug field removed
                                 ])->inlineLabel()->columns(12)->columnSpan([
                                     'default' => 12,
                                     'xl' => 7,

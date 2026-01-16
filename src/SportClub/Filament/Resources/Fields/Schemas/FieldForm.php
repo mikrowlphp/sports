@@ -31,7 +31,7 @@ class FieldForm
                             ->columnSpanFull(),
                     ])->columnSpanFull(),
 
-                    // IMPORTANT INFO - Sport and Description (key identifying info)
+                    // IMPORTANT INFO - Sport only (key identifying info)
                     Grid::make(12)->schema([
                         Select::make('sport_id')
                             ->hiddenLabel()
@@ -40,13 +40,7 @@ class FieldForm
                             ->required()
                             ->searchable()
                             ->preload()
-                            ->columnSpan(['default' => 12, 'xl' => 6]),
-                        Textarea::make('description')
-                            ->hiddenLabel()
-                            ->placeholder(__('sports::fields.form.description'))
-                            ->rows(2)
-                            ->maxLength(1000)
-                            ->columnSpan(['default' => 12, 'xl' => 6]),
+                            ->columnSpanFull(),
                     ])->columnSpanFull(),
 
                     // SEPARATOR
@@ -75,12 +69,6 @@ class FieldForm
                                     ->label(__('sports::fields.form.color'))
                                     ->inlineLabel()
                                     ->columnSpanFull(),
-                                TextInput::make('sort_order')
-                                    ->label(__('sports::fields.form.sort_order'))
-                                    ->inlineLabel()
-                                    ->numeric()
-                                    ->default(0)
-                                    ->columnSpanFull(),
                             ])->columnSpan(['default' => 12, 'xl' => 7])->columns(12),
 
                             Group::make([
@@ -88,11 +76,6 @@ class FieldForm
                                     ->label(__('sports::fields.form.is_indoor'))
                                     ->inlineLabel()
                                     ->default(false)
-                                    ->columnSpanFull(),
-                                Toggle::make('is_active')
-                                    ->label(__('sports::fields.form.is_active'))
-                                    ->inlineLabel()
-                                    ->default(true)
                                     ->columnSpanFull(),
                             ])->columnSpan(['default' => 12, 'xl' => 5])->columns(12),
                         ])

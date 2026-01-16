@@ -32,7 +32,16 @@ class TeamForm
                             ->maxLength(255)
                             ->live(onBlur: true)
                             ->afterStateUpdated(fn ($state, callable $set) => $set('slug', Str::slug($state)))
-                            ->columnSpanFull(),
+                            ->columnSpan(['default' => 12, 'xl' => 8]),
+
+                        FileUpload::make('logo')
+                            ->label(__('sports::teams.logo'))
+                            ->image()
+                            ->disk('s3')
+                            ->visibility('public')
+                            ->directory('teams/logos')
+                            ->maxSize(5120)
+                            ->columnSpan(['default' => 12, 'xl' => 4]),
                     ])->columnSpanFull(),
 
                     // ========================================
@@ -64,15 +73,6 @@ class TeamForm
                             ->unique(ignoreRecord: true)
                             ->suffixIcon('heroicon-o-link')
                             ->columnSpan(['default' => 12, 'xl' => 4]),
-
-                        FileUpload::make('logo')
-                            ->label(__('sports::teams.logo'))
-                            ->image()
-                            ->disk('s3')
-                            ->visibility('public')
-                            ->directory('teams/logos')
-                            ->maxSize(5120)
-                            ->columnSpanFull(),
                     ])->columnSpanFull(),
 
                     // ========================================

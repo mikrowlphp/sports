@@ -21,7 +21,18 @@ class SponsorContractForm
         return $schema
             ->components([
                 Section::make([
-                    // HEADER - Sponsor only (fullspan)
+                    // HEADER - Contract name (fullspan)
+                    Grid::make(12)->schema([
+                        TextInput::make('name')
+                            ->hiddenLabel()
+                            ->placeholder(__('sports::sponsor_contracts.name'))
+                            ->required()
+                            ->main()
+                            ->maxLength(255)
+                            ->columnSpanFull(),
+                    ])->columnSpanFull(),
+
+                    // Sponsor selection
                     Grid::make(12)->schema([
                         Select::make('sponsor_id')
                             ->hiddenLabel()

@@ -115,6 +115,7 @@ class LessonForm
                                     ->options(LessonType::class)
                                     ->native(false)
                                     ->default(LessonType::Group->value)
+                                    ->live()
                                     ->columnSpanFull(),
 
                                 TextInput::make('duration_minutes')
@@ -138,6 +139,7 @@ class LessonForm
                                     ->minValue(1)
                                     ->default(10)
                                     ->helperText(__('sports::lessons.max_participants_helper'))
+                                    ->visible(fn (Get $get) => $get('lesson_type') !== LessonType::Individual->value)
                                     ->columnSpanFull(),
 
                                 Select::make('status')

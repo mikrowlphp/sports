@@ -10,7 +10,6 @@ use Filament\Schemas\Components\Group;
 use Filament\Schemas\Components\Html;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
-use Filament\Support\Enums\IconSize;
 use Packages\Core\Contacts\Models\Contact;
 use Packages\Sports\SportClub\Enums\SubscriptionStatus;
 use Packages\Sports\SportClub\Models\MembershipType;
@@ -57,8 +56,7 @@ class SubscriptionForm
                             ->required()
                             ->native(false)
                             ->suffixIcon('heroicon-o-calendar')
-                            ->suffixIconSize(IconSize::Small)
-                            ->columnSpan([
+                                                        ->columnSpan([
                                 'default' => 12,
                                 'xl' => 4,
                             ]),
@@ -70,8 +68,7 @@ class SubscriptionForm
                             ->native(false)
                             ->afterOrEqual('start_date')
                             ->suffixIcon('heroicon-o-calendar')
-                            ->suffixIconSize(IconSize::Small)
-                            ->columnSpan([
+                                                        ->columnSpan([
                                 'default' => 12,
                                 'xl' => 4,
                             ]),
@@ -85,8 +82,7 @@ class SubscriptionForm
                             ->minValue(0)
                             ->step(0.01)
                             ->suffixIcon('heroicon-o-currency-euro')
-                            ->suffixIconSize(IconSize::Small)
-                            ->columnSpan([
+                                                        ->columnSpan([
                                 'default' => 12,
                                 'xl' => 4,
                             ]),
