@@ -13,7 +13,6 @@ use Filament\Schemas\Components\Html;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Packages\Sports\SportClub\Enums\TournamentFormat;
-use Packages\Sports\SportClub\Enums\TournamentStatus;
 
 class TournamentForm
 {
@@ -69,26 +68,11 @@ class TournamentForm
                     Section::make()
                         ->schema([
                             Group::make([
-                                TextInput::make('slug')
-                                    ->label(__('sports::tournaments.slug'))
-                                    ->required()
-                                    ->maxLength(255)
-                                    ->unique(ignoreRecord: true)
-                                    ->columnSpanFull(),
-
                                 Select::make('format')
                                     ->label(__('sports::tournaments.format'))
                                     ->required()
                                     ->options(TournamentFormat::class)
                                     ->native(false)
-                                    ->columnSpanFull(),
-
-                                Select::make('status')
-                                    ->label(__('sports::tournaments.status'))
-                                    ->required()
-                                    ->options(TournamentStatus::class)
-                                    ->native(false)
-                                    ->default(TournamentStatus::Draft->value)
                                     ->columnSpanFull(),
 
                                 TextInput::make('max_teams')
