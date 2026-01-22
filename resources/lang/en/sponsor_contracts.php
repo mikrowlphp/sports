@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'name' => 'Contract name',
     'sponsor_contract' => 'Sponsor Contract',
     'sponsor_contracts' => 'Sponsor Contracts',
     'sponsor' => 'Sponsor',

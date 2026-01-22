@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'name' => 'Nome contratto',
     'navigation' => [
         'label' => 'Contratto',
         'plural' => 'Contratti',
